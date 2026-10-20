@@ -39,6 +39,8 @@ type StorybookCommon = {
 }
 
 type StorybookCsfTools = {
+  /** Only in the ESTree csf-tools of Storybook 11. */
+  parseModule?: unknown
   loadCsf: (code: string, options: {
     fileName: string
     makeTitle: (userTitle?: string) => string
@@ -46,6 +48,9 @@ type StorybookCsfTools = {
 }
 
 export type StorybookCsfFile = {
+  /** The Babel `File` of the story file, on Storybook 9 and 10. */
+  _ast?: unknown
+  /** The ESTree `Program` of the story file, on Storybook 11. */
   _program?: unknown
   _metaIsFactory?: boolean
   _stories?: Record<string, StaticStory>
@@ -53,7 +58,6 @@ export type StorybookCsfFile = {
 }
 
 export type StorybookCsfParseResult = {
-  _program?: unknown
   _metaIsFactory?: boolean
   _stories: Record<string, StaticStory>
 }
