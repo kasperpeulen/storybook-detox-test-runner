@@ -16,7 +16,7 @@ test('given an exported meta.story call in AST, then factory story export is det
 
 test('given an exported computed meta[\'story\'] call in AST, then factory story export is detected', () => {
   // Given
-  const csf = csfFileWithAst(computedFactoryStoryAst('Primary'))
+  const csf = csfFileWithAst(factoryStoryAst('Primary', computedMemberExpression(identifier('meta'), 'story')))
 
   // When / Then
   expect(getFactoryStoryExportsFromAst(csf)).toEqual(['Primary'])
@@ -124,7 +124,10 @@ function emptyAst () {
   }
 }
 
-function factoryStoryAst (storyExportName: string) {
+function factoryStoryAst (
+  storyExportName: string,
+  storyCallee: unknown = memberExpression(identifier('meta'), 'story')
+) {
   return {
     type: 'Program',
     body: [
@@ -132,29 +135,7 @@ function factoryStoryAst (storyExportName: string) {
       variableDeclaration('meta', callExpression(memberExpression(identifier('preview'), 'meta'))),
       {
         type: 'ExportNamedDeclaration',
-        declaration: variableDeclaration(storyExportName, callExpression(memberExpression(identifier('meta'), 'story'))),
-        specifiers: []
-      }
-    ]
-  }
-}
-
-function computedFactoryStoryAst (storyExportName: string) {
-  const computedStory = {
-    type: 'MemberExpression',
-    object: identifier('meta'),
-    property: { type: 'Literal', value: 'story' },
-    computed: true
-  }
-
-  return {
-    type: 'Program',
-    body: [
-      importDeclaration('preview', '../.storybook/preview'),
-      variableDeclaration('meta', callExpression(memberExpression(identifier('preview'), 'meta'))),
-      {
-        type: 'ExportNamedDeclaration',
-        declaration: variableDeclaration(storyExportName, callExpression(computedStory)),
+        declaration: variableDeclaration(storyExportName, callExpression(storyCallee)),
         specifiers: []
       }
     ]
@@ -217,6 +198,15 @@ function memberExpression (object: unknown, propertyName: string) {
     type: 'MemberExpression',
     object,
     property: identifier(propertyName)
+  }
+}
+
+function computedMemberExpression (object: unknown, propertyName: string) {
+  return {
+    type: 'MemberExpression',
+    object,
+    property: { type: 'Literal', value: propertyName },
+    computed: true
   }
 }
 
