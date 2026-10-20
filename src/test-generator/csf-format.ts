@@ -97,7 +97,7 @@ export function isMixedFactoryError (error: unknown) {
 }
 
 export function getFactoryStoryExportsFromAst (csf: StorybookCsfFile) {
-  const ast = csf._ast
+  const ast = csf._program
   const previewConfigImports = getPreviewConfigImportNames(ast)
   const factoryMetaVariables = new Set<string>()
   const factoryStoryVariables = new Set<string>()
@@ -246,8 +246,7 @@ function unwrapExpression (value: unknown): unknown {
     isNode(current) &&
     (
       current.type === 'TSAsExpression' ||
-      current.type === 'TSSatisfiesExpression' ||
-      current.type === 'TypeCastExpression'
+      current.type === 'TSSatisfiesExpression'
     )
   ) {
     current = current.expression
@@ -307,7 +306,7 @@ function isPropertyNamed (value: unknown, name: string) {
     (isIdentifier(value) && value.name === name) ||
     (
       isNode(value) &&
-      value.type === 'StringLiteral' &&
+      value.type === 'Literal' &&
       value.value === name
     )
   )

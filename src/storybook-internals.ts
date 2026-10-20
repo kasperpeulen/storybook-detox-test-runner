@@ -46,14 +46,14 @@ type StorybookCsfTools = {
 }
 
 export type StorybookCsfFile = {
-  _ast?: unknown
+  _program?: unknown
   _metaIsFactory?: boolean
   _stories?: Record<string, StaticStory>
   parse: () => StorybookCsfParseResult
 }
 
 export type StorybookCsfParseResult = {
-  _ast?: unknown
+  _program?: unknown
   _metaIsFactory?: boolean
   _stories: Record<string, StaticStory>
 }

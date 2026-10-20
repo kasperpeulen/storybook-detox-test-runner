@@ -21,10 +21,10 @@ export function mockStorybookInternals() {
     },
     csfTools: {
       loadCsf (code: string, options: { makeTitle: (userTitle?: string) => string }) {
-        const ast = createCsfAst(code)
+        const program = createCsfAst(code)
 
         return {
-          _ast: ast,
+          _program: program,
           parse () {
             const title = options.makeTitle(parseTitle(code))
             const stories: Record<string, { id: string, name: string, __stats: { factory: boolean } }> = {}
@@ -73,7 +73,7 @@ export function mockStorybookInternals() {
             }
 
             return {
-              _ast: ast,
+              _program: program,
               _metaIsFactory: factoryStories.length > 0,
               _stories: stories
             }
@@ -177,11 +177,8 @@ function createCsfAst(code: string) {
   }
 
   return {
-    type: 'File',
-    program: {
-      type: 'Program',
-      body
-    }
+    type: 'Program',
+    body
   }
 }
 
@@ -195,7 +192,7 @@ function importDeclaration (localName: string, source: string) {
       }
     ],
     source: {
-      type: 'StringLiteral',
+      type: 'Literal',
       value: source
     }
   }
