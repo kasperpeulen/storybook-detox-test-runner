@@ -36,7 +36,7 @@
     "detox": "20.27.6",
     "jest": "29.7.0",
     "mock-fs": "5.4.0",
-    "storybook": "https://pkg.pr.new/storybook@b26f35e1aff",
+    "storybook": "9.0.15",
     "ts-jest": "29.2.5",
     "typescript": "5.6.3"
   },
