@@ -6,7 +6,7 @@ import type { CsfToolsKind } from './test-generator/csf-adapter.spec-support'
  * Mocks the Storybook internals. `csfTools` picks which csf-tools are
  * mocked: the Babel ones of Storybook 9 and 10, which put a Babel `File` on
  * `csf._ast`, or the ESTree ones of Storybook 11, which export `parseModule`
- * and put an ESTree `Program` on `csf._program`.
+ * and put an ESTree `Program` on `csf.program`.
  */
 export function mockStorybookInternals({ csfTools = 'babel' }: { csfTools?: CsfToolsKind } = {}) {
   (globalThis as any).__STORYBOOK_DETOX_TEST_INTERNALS__ = {
@@ -30,7 +30,7 @@ export function mockStorybookInternals({ csfTools = 'babel' }: { csfTools?: CsfT
       ...(csfTools === 'estree' ? { parseModule () {} } : {}),
       loadCsf (code: string, options: { makeTitle: (userTitle?: string) => string }) {
         const program = createCsfAst(code, csfTools)
-        const astField = csfTools === 'estree' ? { _program: program } : { _ast: { type: 'File', program } }
+        const astField = csfTools === 'estree' ? { program } : { _ast: { type: 'File', program } }
 
         return {
           ...astField,

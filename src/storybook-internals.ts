@@ -51,7 +51,7 @@ export type StorybookCsfFile = {
   /** The Babel `File` of the story file, on Storybook 9 and 10. */
   _ast?: unknown
   /** The ESTree `Program` of the story file, on Storybook 11. */
-  _program?: unknown
+  program?: unknown
   _metaIsFactory?: boolean
   _stories?: Record<string, StaticStory>
   parse: () => StorybookCsfParseResult

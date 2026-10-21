@@ -32,12 +32,11 @@ test('given an exported story call from a non-preview import, then factory story
   expect(getFactoryStoryExportsFromAst(csf)).toEqual([])
 })
 
-function csfFileWithAst (_program: unknown) {
+function csfFileWithAst (program: unknown) {
   return {
-    _program,
+    program,
     parse () {
       return {
-        _program,
         _stories: {}
       }
     }

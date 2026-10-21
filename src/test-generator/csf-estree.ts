@@ -1,5 +1,5 @@
 // The CSF Next fallback for Storybook 11, whose csf-tools hand out the story
-// file as an ESTree `Program` on `csf._program`. csf-babel.ts is the same
+// file as an ESTree `Program` on `csf.program`. csf-babel.ts is the same
 // walker for Storybook 9 and 10.
 import type { StorybookCsfFile } from '../storybook-internals'
 
@@ -9,7 +9,7 @@ type AstNode = {
 }
 
 export function getFactoryStoryExportsFromAst (csf: StorybookCsfFile) {
-  const ast = csf._program
+  const ast = csf.program
   const previewConfigImports = getPreviewConfigImportNames(ast)
   const factoryMetaVariables = new Set<string>()
   const factoryStoryVariables = new Set<string>()

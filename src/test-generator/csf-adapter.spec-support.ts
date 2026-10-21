@@ -9,14 +9,14 @@ type FactoryStoryCase = { name: string, code: string, exports: string[] }
 
 // Jest's module loader cannot load the ES modules of Storybook 10 and 11, so a
 // Node process parses the cases with the installed csf-tools and returns what
-// loadCsf put on `_ast` (Babel) or `_program` (ESTree) as JSON.
+// loadCsf put on `_ast` (Babel) or `program` (ESTree) as JSON.
 const parseWithInstalledCsfTools = `
   import { readFileSync } from 'node:fs'
   const csfTools = await import('storybook/internal/csf-tools')
   const kind = typeof csfTools.parseModule === 'function' ? 'estree' : 'babel'
   const files = JSON.parse(readFileSync(0, 'utf8')).map(code => {
     const csf = csfTools.loadCsf(code, { fileName: 'Button.stories.tsx', makeTitle: title => title ?? 'Button' })
-    return { _ast: csf._ast, _program: csf._program }
+    return { _ast: csf._ast, program: csf.program }
   })
   process.stdout.write(JSON.stringify({ kind, files }))
 `
